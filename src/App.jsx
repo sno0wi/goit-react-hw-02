@@ -14,11 +14,14 @@ const initialState = {
 function App() {
   const [feedback, setFeedback] = useState(initialState);
   const updateFeedback = feedbackType => {
-    setFeedback(prevState => ({
-      ...prevState,
-      [feedbackType]: prevState[feedbackType] + 1,
-    }));
-    saveToLocalStorage();
+    setFeedback(prevState => {
+      const updatedFeedback = {
+        ...prevState,
+        [feedbackType]: prevState[feedbackType] + 1,
+      };
+      saveToLocalStorage(updatedFeedback);
+      return updatedFeedback;
+    });
   };
 
   const resetFeedback = () => {
@@ -41,9 +44,9 @@ function App() {
     return 0;
   };
 
-  const saveToLocalStorage = () => {
+  const saveToLocalStorage = data => {
     try {
-      localStorage.setItem('feedback', JSON.stringify(feedback));
+      localStorage.setItem('feedback', JSON.stringify(data));
     } catch (error) {
       console.error('Error saving to localStorage:', error);
     }
