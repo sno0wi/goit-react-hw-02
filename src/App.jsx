@@ -42,7 +42,11 @@ function App() {
   };
 
   const saveToLocalStorage = () => {
-    localStorage.setItem('feedback', JSON.stringify(feedback));
+    try {
+      localStorage.setItem('feedback', JSON.stringify(feedback));
+    } catch (error) {
+      console.error('Error saving to localStorage:', error);
+    }
   };
 
   useEffect(() => {
